@@ -1,0 +1,16 @@
+.home {
+	margin: 3rem auto;
+	text-align: center;
+}
+
+.home h1 {
+	font-size: 5rem;
+	color: rgb(77, 218, 91);
+}
+
+.icon {
+	text-align: center;
+	margin: 3rem auto;
+	color: rgb(218, 213, 92);
+	font-size: 10rem;
+}
