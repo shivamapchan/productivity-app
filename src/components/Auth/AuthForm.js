@@ -37,7 +37,7 @@ const AuthForm = () => {
 						<input
 							type="password"
 							id="password"
-							placeholder="Your passward"
+							placeholder="Your password"
 							required
 						/>
 					</div>
