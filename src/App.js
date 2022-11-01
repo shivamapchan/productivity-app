@@ -6,6 +6,7 @@ import AuthPage from "./pages/AuthPage";
 //import HomePage from "./pages/HomePage";
 import TasksPage from "./pages/TasksPage";
 import WelcomePage from "./pages/WelcomePage";
+import UserProfilePage from "./pages/UserProfilePage";
 
 function App() {
 	return (
@@ -27,6 +28,9 @@ function App() {
 				</Route>
 				<Route path="/changepassword">
 					<UserChangePassword />
+				</Route>
+				<Route path="/profile">
+					<UserProfilePage />
 				</Route>
 			</Switch>
 		</Layout>
