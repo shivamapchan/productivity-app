@@ -17,7 +17,7 @@ const AuthForm = () => {
 				<RiTodoLine />
 			</div>
 			<section className={classes.auth}>
-				<h1>{isLogin ? "Login" : "Sign Up"}</h1>
+				<h2>{isLogin ? "Login" : "Sign Up"}</h2>
 				<form>
 					<div className={classes.control}>
 						<label htmlFor="email">
