@@ -1,8 +1,8 @@
-import UserProfileContent from "../components/UserProfile/UserProfileContent";
+import App from "../components/UserProfile/UserProfileContent";
 import React from "react";
 
 const UserProfile = () => {
-	return <UserProfileContent />;
+	return <App />;
 };
 
 export default UserProfile;
