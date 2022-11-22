@@ -1,14 +1,25 @@
 import React from "react";
-import "./UserProfileContent.module.css";
+import classes from "./ProfileContent.module.css";
+import { Link } from "react-router-dom";
 
-function App() {
+function ProfileContent() {
 	return (
 		<div>
 			<h1> Task Management App</h1>
-			<container>
+			<container className={classes.profile}>
 				<row>
 					<div>
+						<img
+							src="C:\Users\owner\Pictures\Saved Pictures\822711_user_512x512.png"
+							alt=""
+						></img>
 						<p> Username </p>
+						<div>
+							<Link to="/changepassword">
+								Change Password
+								?
+							</Link>
+						</div>
 						<div>
 							<h3>
 								{" "}
@@ -100,4 +111,5 @@ function App() {
 	);
 }
 
-export default App;
+export default ProfileContent;
+
