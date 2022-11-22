@@ -2,11 +2,32 @@ import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import classes from "./SignUpForm.module.css";
 import { RiTodoLine } from "react-icons/ri";
+/* importing the firebase config file */
+import { db } from "../../firebase-config"; 
+/* collection is to reference the collection and addDoc adds data into the db.*/ 
+import { collection, addDoc } from 'firebase/firestore'; 
 
 const SignUpFormContent = () => {
+    
+	/* I added the useState variable for emails so I can capture the email for the db */
+	const [email, setEmail] = useState('');
+	/* I added the useState variable for passwords so I can capture the password for the db */
+	const [password, setPassword] = useState('');
+	/* this is a named reference to the database collection, "users" */
+	const usersCollectionRef = collection(db, "users");
 	const emailRef = useRef();
 	const passwordRef = useRef();
 	const passwordConfirmRef = useRef();
+
+     /* 
+	 - This function will be invoked upon hitting the "Create Account" button.
+	 - It adds the email and the password to the database.
+	 */
+      const createUser = async () => {
+      await addDoc(usersCollectionRef, {email: email, password: password});
+	  };
+
+
 
 	const signUpHandler = (e) => {
 		e.preventDefault();
@@ -20,6 +41,8 @@ const SignUpFormContent = () => {
 			passwordRef.current.value = "";
 			passwordConfirmRef.current.value = "";
 		}
+
+
 
 		if (enteredPassword === enterPasswordConfirm) {
 			fetch(
@@ -80,6 +103,11 @@ const SignUpFormContent = () => {
 							placeholder="Email"
 							required
 							ref={emailRef}
+							/* 
+							This means that when the text changes, the useState variable
+							email is set to the text field value. 
+							*/
+							onChange={(event)=>{setEmail(event.target.value)}}
 						/>
 					</div>
 					<div className={classes.control}>
@@ -89,9 +117,14 @@ const SignUpFormContent = () => {
 						<input
 							type="password"
 							id="password"
-							placeholder="Passward"
+							placeholder="Password"
 							required
 							ref={passwordRef}
+							/* 
+							This means that when the text changes, the useState variable
+							password is set to the text field value. 
+							*/
+							onChange={(event)=>{setPassword(event.target.value)}}
 						/>
 					</div>
 
@@ -102,7 +135,7 @@ const SignUpFormContent = () => {
 						<input
 							type="password"
 							id="password"
-							placeholder="Re-enter passward"
+							placeholder="Re-enter password"
 							required
 							ref={passwordConfirmRef}
 						/>
@@ -110,6 +143,12 @@ const SignUpFormContent = () => {
 
 					<div className={classes.actions}>
 						<button
+						    /* 
+							This onClick controls the addition of data to the DB. 
+							It invokes the createUser function once the
+							create account button is clicked.
+							*/
+						    onClick={createUser}
 							className={
 								classes.login_button
 							}
