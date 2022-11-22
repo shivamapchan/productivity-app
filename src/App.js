@@ -1,36 +1,54 @@
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import React from "react";
 import Layout from "./components/Layout/Layout";
-import UserChangePassword from "./components/ChangePassword/UserChangePassword";
-import AuthPage from "./pages/AuthPage";
-//import HomePage from "./pages/HomePage";
+import ChangePasswordPage from "./pages/PasswordChangePage";
+import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
+import LogoutPage from "./pages/LogoutPage";
 import TasksPage from "./pages/TasksPage";
 import WelcomePage from "./pages/WelcomePage";
-import UserProfilePage from "./pages/UserProfilePage";
+import ProfilePage from "./pages/ProfilePage";
+import AuthContext from "./context/auth-context";
+import { useContext } from "react";
 
 function App() {
+	const authCtx = useContext(AuthContext);
 	return (
 		<Layout>
 			<Switch>
 				<Route path="/" exact>
 					<WelcomePage />
 				</Route>
-				<Route path="/auth">
-					<AuthPage />
+				{!authCtx.isLoggedIn && (
+					<Route path="/login">
+						<LoginPage />
+					</Route>
+				)}
+				{!authCtx.isLoggedIn && (
+					<Route path="/signup">
+						<SignupPage />
+					</Route>
+				)}
+
+				<Route path="/logout">
+					<LogoutPage />
 				</Route>
-				{/*
-				<Route path="/homepage">
-					<HomePage />
-				</Route>
-				*/}
+
 				<Route path="/taskspage">
 					<TasksPage />
 				</Route>
-				<Route path="/changepassword">
-					<UserChangePassword />
-				</Route>
-				<Route path="/profile">
-					<UserProfilePage />
+				{authCtx.isLoggedIn && (
+					<Route path="/changepassword">
+						<ChangePasswordPage />
+					</Route>
+				)}
+				{authCtx.isLoggedIn && (
+					<Route path="/profile">
+						<ProfilePage />
+					</Route>
+				)}
+				<Route path="*">
+					<Redirect to="/" />
 				</Route>
 			</Switch>
 		</Layout>
@@ -38,3 +56,4 @@ function App() {
 }
 
 export default App;
+
