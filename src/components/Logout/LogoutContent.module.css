@@ -1,0 +1,16 @@
+.logout {
+	margin: 3rem auto;
+	text-align: center;
+}
+
+.logout h2 {
+	font-size: 4.5rem;
+	color: rgb(195, 164, 77);
+}
+
+.icon {
+	text-align: center;
+	margin: 3rem auto;
+	color: rgb(195, 161, 116);
+	font-size: 9.8rem;
+}
