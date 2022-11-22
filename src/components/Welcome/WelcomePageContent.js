@@ -1,15 +1,15 @@
-import classes from "./StartingPageContent.module.css";
+import classes from "./WelcomePageContent.module.css";
 import React from "react";
 import { RiTodoLine } from "react-icons/ri";
 
-const StartingPageContent = () => {
+const WelcomePageContent = () => {
 	return (
 		<div>
 			<div className={classes.icon}>
 				<RiTodoLine />
 			</div>
 			<div>
-				<section className={classes.starting}>
+				<section className={classes.welcoming}>
 					<h1 className={classes.heading}>
 						<span
 							className={
@@ -32,4 +32,5 @@ const StartingPageContent = () => {
 	);
 };
 
-export default StartingPageContent;
+export default WelcomePageContent;
+
