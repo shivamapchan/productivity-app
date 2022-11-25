@@ -43,8 +43,8 @@ function CreateTask({ addTask }) {
 /* Tasks has its own collection in the DB, so it is referenced differently: */
   const tasksCollectionRef = collection(db, "tasks");
 /* 
-- This function will be invoked upon hitting the "Create Account" button.
-- It adds the email and the password to the database.
+- This function will be invoked upon hitting the "Add Task" button.
+- Currently, it only adds the task's value (e.g. "grocery shopping") to the db.
 */
   const createTask = async () => {
   await addDoc(tasksCollectionRef, {task: value});
