@@ -4,6 +4,18 @@ import {useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 import { RiTodoLine } from "react-icons/ri";
 import classes from "./TasksPageContent.module.css";
+/* importing the firebase config file */
+import { db } from "../../firebase-config"; 
+/* collection is to reference the collection and addDoc adds data into the db.*/ 
+import { collection, addDoc } from 'firebase/firestore'; 
+
+
+/*
+DB To-do:
+1. The first thing to do is to add each task value to the database's "tasks" collection.
+2. Figure out how to capture the current user's email.
+3. After collecting the email, add the email and task to each document so that they are associated.
+*/
 
 function Task({ task, index, completeTask, deleteTask }) {
   return (
@@ -28,13 +40,24 @@ function Task({ task, index, completeTask, deleteTask }) {
 
 function CreateTask({ addTask }) {
   const [value, setValue] = useState("");
+/* Tasks has its own collection in the DB, so it is referenced differently: */
+  const tasksCollectionRef = collection(db, "tasks");
+/* 
+- This function will be invoked upon hitting the "Create Account" button.
+- It adds the email and the password to the database.
+*/
+  const createTask = async () => {
+  await addDoc(tasksCollectionRef, {task: value});
+  };
 
   const handleSubmit = e => {
       e.preventDefault();
       if (!value) return;
       addTask(value);
       setValue("");
-  }
+      createTask();
+  };
+
   return (
       <form onSubmit={handleSubmit}>
           <input
