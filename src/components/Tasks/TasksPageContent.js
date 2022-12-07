@@ -5,7 +5,7 @@ import classes from "./TasksPageContent.module.css";
 /* importing the firebase config file */
 import { db } from "../../firebase-config"; 
 /* collection is to reference the collection and addDoc adds data into the db.*/ 
-import { collection, addDoc, doc, getDocs, updateDoc, query, getCountFromServer, where } from 'firebase/firestore'; 
+import { collection, addDoc, doc, getDocs, updateDoc, query, setDoc, getCountFromServer, where } from 'firebase/firestore'; 
 
 /*
 DB To-do:
@@ -18,9 +18,11 @@ https://react-query-firebase.invertase.dev/firestore/querying-collections
 let emailer = "";
 let tasksTotal = 0;
 let completedTotal = 0;
+let taskArchive = [];
 export {emailer};
 export {tasksTotal};
 export {completedTotal};
+export {taskArchive};
 function Task({ task, index, completeTask, deleteTask }) {
   return (
       <div
@@ -42,6 +44,27 @@ function Task({ task, index, completeTask, deleteTask }) {
   );
 }
 
+function DbTask({ task, index, completeTask, deleteTask }) {
+    return (
+        <div
+            className="task"
+            style={{ textDecoration: task.completed ? "line-through" : "" }}
+        >
+            {task.title}
+  
+            {/*
+            IMPORTANT: When ready, create a useState variable for indexing
+            <text>     (task index = {index})</text>
+            */}
+            
+  
+            <button style={{ background: "#FF6347" }} onClick={() => deleteTask(index)}>Delete X</button>
+            <button style={{ background: "#8FBC8F" }} onClick={() => completeTask(index)}>Complete ✓</button>
+  
+        </div>
+    );
+  }
+
 function CreateTask({ addTask }) {
   const [value, setValue] = useState("");
   const [email, setEmail] = useState("");
@@ -57,6 +80,7 @@ function CreateTask({ addTask }) {
     setNumLeft(snapshot.data().count);
     tasksTotal = snapshot.data().count;
   }
+
 /* 
 - This function will be invoked upon hitting the "Add Task" button.
 - Currently, it only adds the task's value (e.g. "grocery shopping") to the db.
@@ -64,6 +88,17 @@ function CreateTask({ addTask }) {
   const createTask = async () => {
   await addDoc(tasksCollectionRef, {task: value, useremail: email});
   };
+
+  const getTasksArchive = async () => {
+    const coll = collection(db, "tasks");
+    const query_ = query(coll, where('useremail', '==', emailer));
+    const snapshot = await getDocs(query_);
+    snapshot.forEach((doc) => {
+        taskArchive.push(doc.data());
+      //  console.log(doc.data());
+    })
+    console.log(taskArchive);
+};
 
   const handleSubmit = e => {
       e.preventDefault();
@@ -74,6 +109,7 @@ function CreateTask({ addTask }) {
       emailSetter();
       tasksSetter();
       getNumToDo();
+      getTasksArchive();
       tasksTotal = numLeft;
   };
 
@@ -137,12 +173,15 @@ function App() {
       newTasks[index].completed = true;
       setTasks(newTasks);
       completedTotal++;
+      tasksTotal--;
   };
+  
 
   const deleteTask = index => {
     const newTasks = [...tasks];
     newTasks.splice(index, 1);
     setTasks(newTasks);
+    tasksTotal--;
 };
  
   
@@ -164,7 +203,7 @@ function App() {
                   index={index}
                   completeTask={completeTask}
                   deleteTask={deleteTask}
-                  key={task}
+                  key={index}
                   />
               ))}
           </div>
@@ -175,11 +214,16 @@ function App() {
           {/* MAYBE A BAD IDEA */}
           <div className={classes.todoContainer}>
          <div className={classes.bigHeader}> Your Task Archive</div>
+         <ul>
+        {taskArchive.map(item => {
+          return <li key={Math.random()}><p>{JSON.stringify(item)}</p><button>Delete</button></li>;
+        })}
+      </ul>
           <div className={classes.header}> Number of Tasks Left to Complete: ({tasksTotal})</div>
           <div className={classes.header}> Number of Tasks Completed: ({completedTotal})</div>
           <div className={classes.task}>
               {tasks.map((task, index) => (
-                  <Task
+                  <DbTask
                   task={task}
                   index={index}
                   completeTask={completeTask}

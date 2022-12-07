@@ -1,56 +1,105 @@
-* {
-	box-sizing: border-box;
-}
-body {
-	background: wheat;
+.App {
+    text-align: center;
+    color: rgb(197, 149, 87);
+  }
+  
+  body{
+    background: wheat;
+    }
+    
+  .todoContainer{
+    margin: 1rem auto;
+    color: white;
+    font-weight: bold;
+	align-self: grid;
+	display: inline-block;
+	  width: 95%;
+	  max-width: 40rem;
+	  border-radius: 6px;
+	  background: linear-gradient(
+		to left top,
+		rgb(198, 155, 100),
+		rgb(203, 76, 76)
+	);
+	  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  	padding: 1rem;
+	  text-align: center;
 }
 
-.profile {
-	margin: 1rem auto;
-	width: 70rem;
-	max-width: 100rem;
-	border-radius: 6px;
-	background-color: rgb(241, 205, 154);
-	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-	padding: 1rem;
-	text-align: center;
+.todoContainerSub{
+    margin: 1rem auto;
+    color: white;
+    font-weight: bold;
+	align-self: grid;
+	display: inline-block;
+	margin-block-end: 10px;
+	  width: 95%;
+	  max-width: 40rem;
+	  border-radius: 6px;
+	  background: linear-gradient(
+		to left top,
+		rgb(198, 155, 100),
+		rgb(203, 76, 76)
+	);
+	  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  	padding: 1rem;
+	  text-align: center;
 }
+
 .icon {
 	text-align: center;
 	margin: 1rem auto;
 	color: rgb(197, 149, 87);
 	font-size: 5rem;
 }
+        
+    .task{
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 0.5em;
+    margin: 0.5em;
+    }
+    
+    .task button{
+    background: rgb(12, 124, 251);
+    border-radius: 5px;
+ /*   margin: 0px 5px;
+    padding: 3px 5px; */
+    border: none;
+    cursor: pointer;
+    color: white;
+    float: right;
+    }
+    
+    .header{
+    margin: 0.5em;
+    font-size: 1em;
+    text-align: center;
+    }
+  
+    .bigHeader{
+    margin: 0.5em;
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    }
 
-h1 {
-	text-align: center;
-	font-size: 5rem;
-	color: rgb(77, 218, 91);
-}
-h3,
-h4,
-h5 {
-	text-align: center;
-	color: rgb(77, 218, 91);
-}
-.img {
-	width: 100px;
-	height: 100px;
-	margin-left: auto;
-	margin-right: auto;
-	display: block;
-}
-table {
-	border-collapse: collapse;
-	width: 100%;
-}
-tr {
-	border-bottom: 1px solid #ddd;
-}
-.card {
-	background-color: white;
-	border-radius: 4px;
-	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-	padding: 1rem;
-	width: 20rem;
-}
+
+    .addButton {
+      color: white;
+      font-weight: bold;
+      border: 1px, rgb(167, 198, 100);
+      background: linear-gradient(
+        to left top,
+        rgb(167, 198, 100),
+        rgb(76, 150, 203)
+      );
+    }
+    
+    .create-task input[type=text]{
+    margin: 2.5em 2em;
+    width: 80%;
+    outline: none;
+    border: none;
+    padding: 0.7em;
+    }
