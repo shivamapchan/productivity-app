@@ -6,7 +6,7 @@ import { RiTodoLine } from "react-icons/ri";
 import { db } from "../../firebase-config"; 
 /* collection is to reference the collection and addDoc adds data into the db.*/ 
 import { collection, addDoc } from 'firebase/firestore'; 
-
+import { tasksTotal, completedTotal } from "../Tasks/TasksPageContent";
 const SignUpFormContent = () => {
     
 	/* I added the useState variable for emails so I can capture the email for the db */
@@ -24,7 +24,7 @@ const SignUpFormContent = () => {
 	 - It adds the email and the password to the database.
 	 */
       const createUser = async () => {
-      await addDoc(usersCollectionRef, {email: email, password: password});
+      await addDoc(usersCollectionRef, {email: email, password: password, tasksDone: completedTotal, tasksRemaining: tasksTotal});
 	  };
 
 
@@ -107,7 +107,7 @@ const SignUpFormContent = () => {
 							This means that when the text changes, the useState variable
 							email is set to the text field value. 
 							*/
-							onChange={(event)=>{setEmail(event.target.value)}}
+							onChange={(event)=>{setEmail(this.target.value)}}
 						/>
 					</div>
 					<div className={classes.control}>

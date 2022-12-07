@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, state, useContext } from "react";
 import { Link } from "react-router-dom";
 import classes from "./LoginForm.module.css";
 import { RiTodoLine } from "react-icons/ri";
@@ -10,12 +10,10 @@ const LoginForm = () => {
 	const history = useHistory();
 	const emailInputRef = useRef();
 	const passwordInputRef = useRef();
-
 	const loginContext = useContext(AuthContext);
 
 	const signInHandler = (e) => {
 		e.preventDefault();
-
 		const enteredEmail = emailInputRef.current.value;
 		const enteredPassword = passwordInputRef.current.value;
 
@@ -62,6 +60,7 @@ const LoginForm = () => {
 				alert(err.message);
 			});
 	};
+
 	return (
 		<div>
 			<div className={classes.icon}>
@@ -69,6 +68,7 @@ const LoginForm = () => {
 			</div>
 			<section className={classes.login}>
 				<h2>Login</h2>
+
 				<form onSubmit={signInHandler}>
 					<div className={classes.control}>
 						<label htmlFor="email">
@@ -78,7 +78,7 @@ const LoginForm = () => {
 							type="email"
 							id="email"
 							ref={emailInputRef}
-							placeholder="Your Email"
+							placeholder="Enter Your Email"
 							required
 						/>
 					</div>
@@ -90,7 +90,7 @@ const LoginForm = () => {
 							type="password"
 							id="password"
 							ref={passwordInputRef}
-							placeholder="Your passward"
+							placeholder="Enter Your Password"
 							required
 						/>
 					</div>
@@ -121,5 +121,4 @@ const LoginForm = () => {
 		</div>
 	);
 };
-
 export default LoginForm;
