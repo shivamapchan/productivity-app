@@ -19,10 +19,11 @@ let emailer = "";
 let tasksTotal = 0;
 let completedTotal = 0;
 let taskArchive = [];
+let output = [];
 export {emailer};
 export {tasksTotal};
 export {completedTotal};
-export {taskArchive};
+export {output};
 function Task({ task, index, completeTask, deleteTask }) {
   return (
       <div
@@ -48,18 +49,16 @@ function DbTask({ task, index, completeTask, deleteTask }) {
     return (
         <div
             className="task"
-            style={{ textDecoration: task.completed ? "line-through" : "" }}
+            style={{ textDecoration: "none" }}
         >
-            {task.title}
+            This is where the archive is updated
   
             {/*
             IMPORTANT: When ready, create a useState variable for indexing
             <text>     (task index = {index})</text>
             */}
             
-  
-            <button style={{ background: "#FF6347" }} onClick={() => deleteTask(index)}>Delete X</button>
-            <button style={{ background: "#8FBC8F" }} onClick={() => completeTask(index)}>Complete ✓</button>
+            <button style={{ background: "" }} onClick={() => completeTask(index)}>Render Archive</button>
   
         </div>
     );
@@ -97,7 +96,9 @@ function CreateTask({ addTask }) {
         taskArchive.push(doc.data());
       //  console.log(doc.data());
     })
+    output = [...new Map(taskArchive.map(o => [o.task, o])).values()]
     console.log(taskArchive);
+    console.log(output);
 };
 
   const handleSubmit = e => {
@@ -215,7 +216,7 @@ function App() {
           <div className={classes.todoContainer}>
          <div className={classes.bigHeader}> Your Task Archive</div>
          <ul>
-        {taskArchive.map(item => {
+        {output.map(item => {
           return <li key={Math.random()}><p>{JSON.stringify(item)}</p><button>Delete</button></li>;
         })}
       </ul>

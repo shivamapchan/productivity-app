@@ -2,7 +2,7 @@ import React from "react";
 import classes from "./ProfileContent.module.css";
 import { Link } from "react-router-dom";
 import { RiTodoLine } from "react-icons/ri";
-import {emailer, tasksTotal, completedTotal, taskArchive} from "../Tasks/TasksPageContent"
+import {emailer, tasksTotal, completedTotal, output} from "../Tasks/TasksPageContent"
 
 function ProfileContent() {
 
@@ -36,7 +36,7 @@ function ProfileContent() {
 		<div className={classes.header}> Total Number of Tasks: ({tasksTotal})</div>
 		<div className={classes.header}> Tasks Archive:</div>
 		<ul>
-        {taskArchive.map(item => {
+        {output.map(item => {
           return <li key={Math.random()}><p>{JSON.stringify(item)}</p></li>;
         })}
       </ul>
