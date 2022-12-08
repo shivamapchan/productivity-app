@@ -23,8 +23,7 @@ function ProfileContent() {
 		<div className={classes.todoContainerSub}>
 		<div className={classes.bigHeader}> Your Achievements! </div>
 		<div className={classes.header}> Number of Tasks Completed: ({completedTotal})</div>
-		<div className={classes.header}> Total Number of Tasks: ({tasksTotal})</div>
-		<div className={classes.header}> Badges: {completedTotal}/10 </div>
+		<div className={classes.header}> Badges: 0/4 </div>
 		<div className={classes.header}> First Task Badge: 🙂 </div>
 		<div className={classes.header}> 5 Tasks Badge: 👍 </div>
 		<div className={classes.header}> 10 Tasks Badge: 🌟 </div>
@@ -33,8 +32,6 @@ function ProfileContent() {
 		<div className={classes.todoContainerSub}>
 		<div className={classes.bigHeader}> Task Archive: </div>
 		<div className={classes.header}> Number of Tasks Completed: ({completedTotal})</div>
-		<div className={classes.header}> Total Number of Tasks: ({tasksTotal})</div>
-		<div className={classes.header}> Tasks Archive:</div>
 		<ul>
         {output.map(item => {
           return <li key={Math.random()}><p>{JSON.stringify(item)}</p></li>;

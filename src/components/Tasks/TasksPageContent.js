@@ -5,7 +5,7 @@ import classes from "./TasksPageContent.module.css";
 /* importing the firebase config file */
 import { db } from "../../firebase-config"; 
 /* collection is to reference the collection and addDoc adds data into the db.*/ 
-import { collection, addDoc, doc, getDocs, updateDoc, query, setDoc, getCountFromServer, where } from 'firebase/firestore'; 
+import { collection, addDoc, doc, getDocs, onSnapshot, query, setDoc, getCountFromServer, where } from 'firebase/firestore'; 
 
 /*
 DB To-do:
@@ -32,12 +32,6 @@ function Task({ task, index, completeTask, deleteTask }) {
       >
           {task.title}
 
-          {/*
-          IMPORTANT: When ready, create a useState variable for indexing
-          <text>     (task index = {index})</text>
-          */}
-          
-
           <button style={{ background: "#FF6347" }} onClick={() => deleteTask(index)}>Delete X</button>
           <button style={{ background: "#8FBC8F" }} onClick={() => completeTask(index)}>Complete ✓</button>
 
@@ -45,49 +39,50 @@ function Task({ task, index, completeTask, deleteTask }) {
   );
 }
 
-function DbTask({ task, index, completeTask, deleteTask }) {
-    return (
-        <div
-            className="task"
-            style={{ textDecoration: "none" }}
-        >
-            This is where the archive is updated
-  
-            {/*
-            IMPORTANT: When ready, create a useState variable for indexing
-            <text>     (task index = {index})</text>
-            */}
-            
-            <button style={{ background: "" }} onClick={() => completeTask(index)}>Render Archive</button>
-  
-        </div>
-    );
-  }
 
 function CreateTask({ addTask }) {
+/* value refers to what the user entered as their task e.g. "groceries, study, etc." */
   const [value, setValue] = useState("");
+/* Tasks makes the user re-enter their email (only once) to ensure that the email and tasks are properly associated */
   const [email, setEmail] = useState("");
+/* numLeft is the number of tasks the user has to complete */
   const [numLeft, setNumLeft] = useState();
 /* Tasks has its own collection in the DB, so it is referenced differently: */
   const tasksCollectionRef = collection(db, "tasks");
 
+  /*
+   getNumToDo is a counter function that queries the DB.
+   It's job is to essentially say 
+   "count instances where the useremail in the DB matches 
+   the email that was entered on the task page."
+   Then the export const tasksTotal is set to the snapshot result
+   so it can be used both in other components here and on the
+   profile page.
+   */
   const getNumToDo = async () => {
     const coll = collection(db, "tasks");
     const query_ = query(coll, where('useremail', '==', emailer));
     const snapshot = await getCountFromServer(query_);
     console.log('count: ', snapshot.data().count);
     setNumLeft(snapshot.data().count);
-    tasksTotal = snapshot.data().count;
+    tasksTotal = snapshot.data().count + 1;
   }
 
 /* 
 - This function will be invoked upon hitting the "Add Task" button.
-- Currently, it only adds the task's value (e.g. "grocery shopping") to the db.
+- It adds the task name and the user's email to the "tasks" collection 
+in the db.
 */
   const createTask = async () => {
   await addDoc(tasksCollectionRef, {task: value, useremail: email});
   };
 
+  /*
+  This returns all of the tasks associated with the current user's email.
+  It also adds each of the current user's tasks docs to an array.
+  That array is then parsed for redundant values and the non-redundant
+  array is used for the export const.  
+   */
   const getTasksArchive = async () => {
     const coll = collection(db, "tasks");
     const query_ = query(coll, where('useremail', '==', emailer));
@@ -101,6 +96,8 @@ function CreateTask({ addTask }) {
     console.log(output);
 };
 
+
+/* a TON of functions are invoked once the "Add Task" button is hit */
   const handleSubmit = e => {
       e.preventDefault();
       if (!value) return;
@@ -125,7 +122,6 @@ function CreateTask({ addTask }) {
 
   return (
       <form onSubmit={handleSubmit}>
-      <p>{tasksTotal}</p>
        <label>
 			*You Must Confirm Your Email Address*
 			</label>
@@ -163,6 +159,7 @@ function App() {
   useEffect(() => { setTasksRemaining(tasks.filter(task => !task.completed).length) });
   useEffect(() => { setTasksDone(tasks.filter(task => task.completed).length) });
 
+
   const addTask = title => {
       const newTasks = [...tasks, { title, completed: false }];
       setTasks(newTasks);
@@ -184,7 +181,7 @@ function App() {
     setTasks(newTasks);
     tasksTotal--;
 };
- 
+
   
 
   return (
@@ -212,29 +209,18 @@ function App() {
               <CreateTask addTask={addTask} />
           </div>
           </div>
-          {/* MAYBE A BAD IDEA */}
+          {/* START THE TASKS ARCHIVE */}
           <div className={classes.todoContainer}>
          <div className={classes.bigHeader}> Your Task Archive</div>
          <ul>
-        {output.map(item => {
-          return <li key={Math.random()}><p>{JSON.stringify(item)}</p><button>Delete</button></li>;
+        {output.map((item, index) => {
+          return <li key={index}>
+          <p>{JSON.stringify(item)}</p>
+          </li>;
         })}
       </ul>
-          <div className={classes.header}> Number of Tasks Left to Complete: ({tasksTotal})</div>
-          <div className={classes.header}> Number of Tasks Completed: ({completedTotal})</div>
-          <div className={classes.task}>
-              {tasks.map((task, index) => (
-                  <DbTask
-                  task={task}
-                  index={index}
-                  completeTask={completeTask}
-                  deleteTask={deleteTask}
-                  key={task}
-                  />
-              ))}
           </div>
-          </div>
-          {/* END BAD IDEA */}
+          {/* END TASKS ARCHIVE */}
           </div>
   );
 }
