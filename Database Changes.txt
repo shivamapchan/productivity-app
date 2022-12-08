@@ -1,0 +1,11 @@
+Database Changes:
+1. I made a new firestore DB named productivity-fire.
+2. The first collection I added is "users."
+3. The collection "users" has auto-indexed documents. 
+4. Those documents have the fields "email" and "password"
+5. The first page I added DB functionality to us "SignUpForm.js" because when the
+user registers, their information needs to be stored in the database.
+6. After starting with "users" I added another collection named "tasks." 
+7. The collection "tasks" has auto-indexed documents.
+8. Those documents contain the fields "task" and "useremail."
+9. The fields have the task value and useremail to associate those task vals with specific users. 

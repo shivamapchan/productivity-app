@@ -1,0 +1,4 @@
+Dependencies
+To use this project, run the following commands in your Node.js command prompt in your project's directory:
+1. npm install react-router-dom
+2. npm install firebase
